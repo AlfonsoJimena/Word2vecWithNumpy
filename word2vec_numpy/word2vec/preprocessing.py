@@ -17,20 +17,15 @@ def tokenize(text: str) -> list[str]:
     """
     Convierte un texto crudo en una lista de tokens (palabras).
 
-    Pasos típicos:
-      - pasar todo a minúsculas
-      - quitar o separar puntuación (regex tipo r"[a-záéíóúñ]+" te sirve para español)
-      - hacer split en palabras
-
     Args:
         text: el contenido completo del corpus como un único string.
 
     Returns:
-        Lista de tokens, ej: ["el", "gato", "duerme", "en", "el", "sofa"]
+        Lista de tokens
     """
-    # TODO: implementar limpieza + tokenización
-    raise NotImplementedError
+    tokens = re.findall(r"[a-záéíóúñ]+", text.lower())
 
+    return tokens
 
 def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict]:
     """
