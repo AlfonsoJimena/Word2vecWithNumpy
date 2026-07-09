@@ -3,9 +3,6 @@ preprocessing.py
 -----------------
 Todo lo relacionado con convertir texto crudo en algo que el modelo pueda usar:
 tokenizar, construir vocabulario y hacer subsampling de palabras muy frecuentes.
-
-No depende de NumPy en su mayor parte (esto es procesamiento de texto puro),
-salvo subsample() donde sí conviene usar np.random para las probabilidades.
 """
 
 import re
@@ -68,7 +65,7 @@ def subsample(tokens: list[str], word_freqs: dict, threshold: float = 1e-5) -> l
 
         P(descartar w) = 1 - sqrt(threshold / freq_relativa(w))
 
-    Esto mejora mucho la calidad de los embeddings porque evita que el
+    Mejora mucho la calidad de los embeddings ya que evita que el
     entrenamiento se sature de palabras poco informativas.
 
     Args:
@@ -101,7 +98,7 @@ def subsample(tokens: list[str], word_freqs: dict, threshold: float = 1e-5) -> l
 
     return resul
 
-
+################################################################################ PRUEBAS (ELIMINAR PARA VERSIóN FINAL) ####################################################################################################
 if __name__ == "__main__":
     # Bloque de prueba rápida: te permite ejecutar
     #   python word2vec/preprocessing.py
@@ -116,3 +113,5 @@ if __name__ == "__main__":
 
     tokens_sub = subsample(tokens, freqs)
     print("Tras subsampling:", tokens_sub)
+
+##########################################################################################################################################################################################################################
