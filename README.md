@@ -32,20 +32,20 @@ python evaluate.py
 ```
 word2vec-numpy/
 ├── data/
-│   └── corpus.txt          # tu texto crudo
-├── embeddings/              # se genera al entrenar
+│   └── corpus.txt            # tu texto crudo
+├── embeddings/               # se genera al entrenar
 │   ├── W_in.npy
 │   └── word2idx.json
 ├── word2vec/
 │   ├── __init__.py
-│   ├── preprocessing.py    # tokenizar, vocabulario, subsampling
-│   ├── sampling.py         # pares (contexto, centro) + negative sampling
-│   ├── model.py             # inicialización, forward, gradientes (CBOW)
-│   └── train.py             # el bucle de entrenamiento (SGD)
+│   ├── preprocessing.py      # tokenizar, vocabulario, subsampling
+│   ├── sampling.py           # pares (contexto, centro) + negative sampling
+│   ├── model.py              # inicialización, forward, gradientes (CBOW)
+│   └── train.py              # el bucle de entrenamiento (SGD)
 ├── evaluate.py               # similitud coseno, vecinos más cercanos
-├── main.py                   # orquesta todo el pipeline
-├── requirements.txt
-└── README.md
+└── main.py                   # orquesta todo el pipeline
+requirements.txt
+README.md
 ```
 
 ## Notas de la implementación
