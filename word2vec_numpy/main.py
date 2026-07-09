@@ -37,6 +37,10 @@ def main():
     # TODO: tokens = tokenize(text)
     # TODO: word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
     # TODO: tokens = subsample(tokens, word_freqs)   # opcional pero recomendado
+    #    tokens = tokenize(text)
+    #    word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
+    #    tokens = [t for t in tokens if t in word2idx]   # <- filtrar ANTES de subsample
+    #    tokens = subsample(tokens, word_freqs)
     # TODO: token_indices = [word2idx[t] for t in tokens if t in word2idx]
 
     # 3. Entrenar

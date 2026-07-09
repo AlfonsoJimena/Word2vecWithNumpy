@@ -51,7 +51,7 @@ def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict
             word_freqs[word] = count
 
     word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True))
-    
+
     for i, word in enumerate(word_freqs_ordenado):
         word2idx[word] = i
 
@@ -80,10 +80,26 @@ def subsample(tokens: list[str], word_freqs: dict, threshold: float = 1e-5) -> l
         Nueva lista de tokens, más corta, con las palabras muy frecuentes
         aparecidas menos veces (o incluso eliminadas del todo en algunas posiciones).
     """
-    # TODO: calcular frecuencia relativa de cada palabra (freq / total_tokens)
-    # TODO: calcular P(descartar) para cada palabra
-    # TODO: usar np.random.rand() por token para decidir si se mantiene o se descarta
-    raise NotImplementedError
+
+    freq_relativa = {}
+    p_descartar = {}
+    resul = []
+
+    total_tokens = sum(word_freqs.values())
+
+    for word, count in word_freqs.items():
+        freq_relativa[word] = count/ total_tokens
+
+    for word, fr in freq_relativa.items():
+        p_descartar[word] = 1 - np.sqrt(threshold / fr)
+
+    for word in tokens:
+        prob = p_descartar[word]
+        if np.random.rand() < prob:
+            continue 
+        resul.append(word)
+
+    return resul
 
 
 if __name__ == "__main__":
