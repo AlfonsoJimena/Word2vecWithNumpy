@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+embeddings/*.npy
+embeddings/*.json
+.venv/
+venv/
