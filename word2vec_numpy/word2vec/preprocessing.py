@@ -40,13 +40,25 @@ def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict
         word2idx: dict {palabra: indice}
         idx2word: dict {indice: palabra}
         word_freqs: dict {palabra: frecuencia_absoluta}  (solo de las que sobreviven al filtro)
-
-    Pista: usa collections.Counter(tokens) para contar frecuencias fácilmente.
     """
-    # TODO: contar frecuencias con Counter
-    # TODO: filtrar por min_count
-    # TODO: asignar un índice a cada palabra superviviente (ej. ordenadas por frecuencia desc)
-    raise NotImplementedError
+    word2idx = {}
+    idx2word = {}
+    word_freqs = {}
+
+    freqs = Counter(tokens)
+    for word, count in freqs.items():
+        if count>= min_count:
+            word_freqs[word] = count
+
+    word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True))
+    
+    for i, word in enumerate(word_freqs_ordenado):
+        word2idx[word] = i
+
+    for i, word in enumerate(word_freqs_ordenado):
+        idx2word[i] = word
+
+    return word2idx, idx2word, word_freqs
 
 
 def subsample(tokens: list[str], word_freqs: dict, threshold: float = 1e-5) -> list[str]:
