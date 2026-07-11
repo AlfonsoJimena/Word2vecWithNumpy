@@ -99,11 +99,10 @@ def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
     Returns:
         np.ndarray de shape (k,) con índices de palabras negativas.
     """
-    # TODO: np.random.choice(table, size=k) y, si algún resultado == exclude_idx,
-    #       volver a muestrear ese hueco (o simplemente ignorarlo, con tablas grandes
-    #       la probabilidad de colisión es baja y no es grave para este ejercicio)
-    raise NotImplementedError
 
+    negatives = np.random.choice(table, size=k)
+
+    return negatives
 
 ################################################################################ PRUEBAS (ELIMINAR PARA VERSIóN FINAL) ####################################################################################################
 if __name__ == "__main__":
