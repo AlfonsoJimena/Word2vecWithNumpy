@@ -4,10 +4,9 @@ sampling.py
 Generación de los pares de entrenamiento para CBOW, y el muestreo de
 negativos (negative sampling).
 
-En CBOW, cada ejemplo de entrenamiento es:
+En CBOW, cada ejemplo de entrenamiento:
     ([contexto_1, contexto_2, ..., contexto_n], centro)
 es decir: varias palabras de contexto que deben predecir UNA palabra centro.
-(Al contrario que en skip-gram, donde era 1 centro -> N pares con cada contexto).
 """
 
 import numpy as np
@@ -15,12 +14,11 @@ import numpy as np
 
 def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[tuple[list[int], int]]:
     """
-    Recorre la secuencia de tokens (ya convertidos a índices de vocabulario)
-    y genera pares (contexto, centro) para CBOW.
+    Recorre la secuencia de tokens y genera pares (contexto, centro) para CBOW.
 
     Args:
         token_indices: lista de enteros, cada uno el índice de vocabulario
-                        de un token (ya deberías haber pasado tokens -> word2idx antes).
+                        de un token.
         window_size: cuántas palabras coger a cada lado del centro.
 
     Returns:
@@ -52,20 +50,17 @@ def build_negative_sampling_table(word_freqs: dict, word2idx: dict,
     aparece un número de veces proporcional a freq(palabra)^power.
 
     Elevar a 0.75 (en vez de usar la frecuencia directa) es la receta del
-    paper original: suaviza la distribución para que las palabras rarísimas
-    tengan algo más de probabilidad, y las poquísimas palabras ultra-frecuentes
-    no dominen tanto el muestreo.
+    paper original: suaviza la distribución para que las palabras extremadamente raras
+    tengan algo más de probabilidad, y las pocas palabras muy frecuentes no dominen tanto el muestreo.
 
     Args:
         word_freqs: dict {palabra: frecuencia_absoluta}
         word2idx: dict {palabra: indice}
-        table_size: tamaño de la tabla precomputada (más grande = muestreo más fino,
-                    pero más memoria).
+        table_size: tamaño de la tabla precomputada.
         power: exponente de suavizado, 0.75 en el paper original.
 
     Returns:
-        np.ndarray de shape (table_size,) con índices de palabras (dtype=int),
-        listo para hacer np.random.choice(table) súper rápido en el bucle de entrenamiento.
+        np.ndarray de shape (table_size,) con índices de palabras (dtype=int).
     """
 
     words = list(word_freqs.keys())
@@ -93,7 +88,7 @@ def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
 
     Args:
         table: la tabla devuelta por build_negative_sampling_table().
-        k: cuántos negativos quieres (típicamente 5-15 para corpus pequeños).
+        k: cuántos negativos se necesitan (típicamente 5-15 para corpus pequeños).
         exclude_idx: índice de la palabra centro real, para no muestrearla por error.
 
     Returns:
