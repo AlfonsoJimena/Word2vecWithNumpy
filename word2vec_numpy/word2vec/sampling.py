@@ -68,14 +68,22 @@ def build_negative_sampling_table(word_freqs: dict, word2idx: dict,
         listo para hacer np.random.choice(table) súper rápido en el bucle de entrenamiento.
     """
 
-    
+    words = list(word_freqs.keys())
+    index = []
+    freqs = []
 
-    # TODO: para cada palabra, calcular freq^power
-    # TODO: normalizar para que sumen 1 (son "probabilidades")
-    # TODO: repartir table_size huecos proporcionalmente a esas probabilidades
-    #       (pista: np.random.choice(list(word2idx.values()), size=table_size, p=probs)
-    #        es más simple que construir la tabla "a mano", y es igual de válido)
-    raise NotImplementedError
+    for word in words:
+        index.append(word2idx[word])
+        freqs.append(word_freqs[word])
+    
+    freqs = np.array(freqs)
+    freqs_suavizadas = freqs ** power
+
+    probs = freqs_suavizadas / freqs_suavizadas.sum()
+
+    tabla = np.random.choice(index, size=table_size, p=probs)
+
+    return tabla
 
 
 def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
@@ -97,6 +105,7 @@ def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
     raise NotImplementedError
 
 
+################################################################################ PRUEBAS (ELIMINAR PARA VERSIóN FINAL) ####################################################################################################
 if __name__ == "__main__":
     # Prueba rápida con datos de juguete (sin depender de preprocessing.py todavía)
     fake_freqs = {"el": 100, "gato": 10, "duerme": 8, "perro": 9, "sofa": 3}
@@ -109,3 +118,4 @@ if __name__ == "__main__":
     table = build_negative_sampling_table(fake_freqs, fake_word2idx, table_size=1000)
     negs = sample_negatives(table, k=3, exclude_idx=0)
     print("Negativos muestreados:", negs)
+##########################################################################################################################################################################################################################
