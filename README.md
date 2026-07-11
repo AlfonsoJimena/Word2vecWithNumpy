@@ -54,3 +54,5 @@ README.md
 - Optimización: **negative sampling** en vez de softmax completo (más rápido,
   y evita normalizar sobre todo el vocabulario en cada paso).
 - Todo el forward/backward está implementado a mano con NumPy — sin autograd.
+
+paper usado el de de Mikolov

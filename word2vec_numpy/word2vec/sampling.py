@@ -67,6 +67,9 @@ def build_negative_sampling_table(word_freqs: dict, word2idx: dict,
         np.ndarray de shape (table_size,) con índices de palabras (dtype=int),
         listo para hacer np.random.choice(table) súper rápido en el bucle de entrenamiento.
     """
+
+    
+
     # TODO: para cada palabra, calcular freq^power
     # TODO: normalizar para que sumen 1 (son "probabilidades")
     # TODO: repartir table_size huecos proporcionalmente a esas probabilidades
