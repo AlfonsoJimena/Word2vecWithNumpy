@@ -18,11 +18,6 @@ def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[
     Recorre la secuencia de tokens (ya convertidos a índices de vocabulario)
     y genera pares (contexto, centro) para CBOW.
 
-    Para cada posición i en la secuencia:
-        centro = token_indices[i]
-        contexto = token_indices[i-window_size : i] + token_indices[i+1 : i+window_size+1]
-        (con cuidado en los bordes del texto, para no salirte del array)
-
     Args:
         token_indices: lista de enteros, cada uno el índice de vocabulario
                         de un token (ya deberías haber pasado tokens -> word2idx antes).
@@ -32,15 +27,22 @@ def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[
         Lista de tuplas (contexto, centro), donde:
           - contexto es una lista de ints (longitud variable en los bordes del texto)
           - centro es un int
-
-        Ej: [([5, 8, 12, 3], 9), ([8, 9, 3, 44], 12), ...]
     """
-    # TODO: iterar sobre cada posición i de token_indices
-    # TODO: para cada i, construir la ventana de contexto respetando los límites
-    #       (cuidado: si i-window_size < 0 o i+window_size >= len(...), recorta)
-    # TODO: opcional pero recomendado -> descartar pares donde el contexto quede vacío
-    #       (puede pasar en textos muy cortos o en los extremos)
-    raise NotImplementedError
+
+    resul = []
+
+    for i in range(len(token_indices)):
+        centro = token_indices[i]
+        
+        inicio_izq = max(0, i - window_size)      # nunca bajar de 0
+        fin_der = min(len(token_indices), i + window_size + 1)   # nunca pasarte del final
+        
+        contexto = token_indices[inicio_izq : i] + token_indices[i+1 : fin_der]
+        
+        if contexto:
+            resul.append((contexto, centro))
+
+    return resul
 
 
 def build_negative_sampling_table(word_freqs: dict, word2idx: dict,
