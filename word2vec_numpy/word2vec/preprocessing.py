@@ -27,11 +27,11 @@ def tokenize(text: str) -> list[str]:
 def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict]:
     """
     Construye el vocabulario a partir de la lista de tokens.
+    Filtra las palabras primero y luego asigna los índices.
 
     Args:
         tokens: lista de todos los tokens del corpus (puede tener repetidos).
         min_count: descarta palabras que aparecen menos de min_count veces.
-                   Esto reduce mucho el tamaño de vocabulario y quita ruido.
 
     Returns:
         word2idx: dict {palabra: indice}
@@ -47,7 +47,7 @@ def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict
         if count>= min_count:
             word_freqs[word] = count
 
-    word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True))
+    word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True)) # Se ordenan las palabras filtradas
 
     for i, word in enumerate(word_freqs_ordenado):
         word2idx[word] = i
