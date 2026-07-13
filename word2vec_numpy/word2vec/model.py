@@ -33,15 +33,16 @@ def sigmoid(x: np.ndarray) -> np.ndarray:
     """
     Sigmoide numéricamente estable.
 
-    Pista: la sigmoide "de libro" sigma(x) = 1 / (1 + exp(-x)) puede
-    hacer overflow si x es muy negativo. Una forma estable típica:
-        si x >= 0: 1 / (1 + exp(-x))
-        si x <  0: exp(x) / (1 + exp(x))
-    np.where o np.clip(x, -30, 30) antes de exponenciar también sirve
-    como solución más simple para este ejercicio.
+    Args:
+        x: np.ndarray 
+    
+    Returns:
+        resul: np.ndarray cuyos elementos se han pasado por un sigmoide
     """
-    # TODO: implementar de forma numéricamente estable
-    raise NotImplementedError
+
+    x_clip = np.clip(x, -30, 30) # Previene overflow en np.exp(). Fuera de este rango el sigmoide ya satura a 0 o 1.
+
+    return 1.0 / (1.0 + np.exp(-x_clip))
 
 
 def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -> tuple[np.ndarray, np.ndarray]:
@@ -129,7 +130,7 @@ def backward_cbow(cache: dict) -> dict:
     # TODO: repartir grad_v_ctx entre las palabras de contexto (dividir por n_context)
     raise NotImplementedError
 
-
+################################################################################ PRUEBAS (ELIMINAR PARA VERSIóN FINAL) ####################################################################################################
 if __name__ == "__main__":
     # Prueba rápida con dimensiones de juguete, para comprobar que las formas
     # (shapes) de todo cuadran antes de meterlo en el bucle de entrenamiento real.
@@ -147,3 +148,4 @@ if __name__ == "__main__":
     print("grad_context shape:", grads["grad_context"].shape)   # esperado: (D,)
     print("grad_u_o shape:", grads["grad_u_o"].shape)             # esperado: (D,)
     print("grad_u_neg shape:", grads["grad_u_neg"].shape)         # esperado: (3, D)
+    ##########################################################################################################################################################################################################################
