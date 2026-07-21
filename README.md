@@ -9,6 +9,8 @@ actualización de parámetros.
 
 ```bash
 pip install -r requirements.txt
+
+VersiónPython: 3.12.10
 ```
 
 ## Uso
