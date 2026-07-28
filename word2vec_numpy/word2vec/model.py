@@ -57,14 +57,10 @@ def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -
     Returns:
         W_in:  np.ndarray shape (V, D)  -> embeddings "de entrada" (contexto)
         W_out: np.ndarray shape (V, D)  -> embeddings "de salida" (palabra a predecir)
-
-    Pista de inicialización típica en word2vec:
-        np.random.uniform(-0.5/D, 0.5/D, size=(V, D))
-    W_out se suele inicializar a ceros o a valores pequeños random, ambas opciones
-    funcionan razonablemente bien para este ejercicio.
     """
-    # TODO: crear W_in y W_out con las formas correctas
-    raise NotImplementedError
+    W_in = np.random.uniform(-0.5/embedding_dim, 0.5/embedding_dim, size=(vocab_size, embedding_dim))
+    W_out = np.zeros((vocab_size, embedding_dim)) # Inicializado con zeros, aunque también podría ser random pequeño.
+    return W_in, W_out
 
 
 def forward_cbow(context_idxs: list[int], center_idx: int, negative_idxs: np.ndarray,
