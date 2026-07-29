@@ -89,8 +89,24 @@ def forward_cbow(context_idxs: list[int], center_idx: int, negative_idxs: np.nda
         6. loss = -log(sigmoid(score_pos)) - sum(log(sigmoid(-scores_neg)))
            (usa np.clip o suma un epsilon pequeño dentro del log para evitar log(0))
     """
-    # TODO: implementar los pasos de arriba
-    raise NotImplementedError
+    
+    v_ctx = W_in[context_idxs].mean(axis=0)  # (D,)
+    u_o = W_out[center_idx]  # (D,)
+    u_neg = W_out[negative_idxs]  # (k, D)
+    score_pos = np.dot(v_ctx, u_o)  # escalar
+    scores_neg = np.dot(u_neg, v_ctx)  # (k,)
+    loss = -np.log(sigmoid(score_pos)) - np.sum(np.log(sigmoid(-scores_neg) + 1e-10))  # Añadimos un epsilon para evitar log(0)
+
+    return loss, {
+        "v_ctx": v_ctx,
+        "u_o": u_o,
+        "u_neg": u_neg,
+        "score_pos": score_pos,
+        "scores_neg": scores_neg,
+        "context_idxs": context_idxs,
+        "center_idx": center_idx,
+        "negative_idxs": negative_idxs
+    }
 
 
 def backward_cbow(cache: dict) -> dict:
