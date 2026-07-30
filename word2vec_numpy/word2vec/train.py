@@ -36,8 +36,10 @@ def sgd_update(W_in: np.ndarray, W_out: np.ndarray, context_idxs: list[int],
                                  ojo si hay negativos repetidos: np.add.at es más seguro que -=
                                  directo cuando hay índices duplicados)
     """
-    # TODO: implementar las 3 actualizaciones descritas arriba
-    raise NotImplementedError
+    np.add.at(W_in, context_idxs, -lr * grads["grad_context"])
+    W_out[center_idx] -= lr * grads["grad_u_o"]
+    np.add.at(W_out, negative_idxs, -lr * grads["grad_u_neg"])
+
 
 
 def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx: dict,
@@ -63,24 +65,27 @@ def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx:
     if seed is not None:
         np.random.seed(seed)
 
-    # TODO 1: W_in, W_out = init_weights(...)
-    # TODO 2: pairs = generate_cbow_pairs(token_indices, window_size)
-    # TODO 3: neg_table = build_negative_sampling_table(word_freqs, word2idx)
+    # init_weights ya usa np.random internamente, y como ya fijamos la seed
+    # arriba con np.random.seed(seed), no hace falta volver a pasarla aquí
+    # (tu implementación de init_weights no usa el parámetro seed de todas formas).
+    W_in, W_out = init_weights(vocab_size, embedding_dim)
+
+    pairs = generate_cbow_pairs(token_indices, window_size)
+    neg_table = build_negative_sampling_table(word_freqs, word2idx)
 
     for epoch in range(epochs):
-        # TODO 4: barajar 'pairs' en cada epoch (np.random.shuffle no funciona
-        #         directo sobre listas de tuplas con distinta longitud interna;
-        #         usa random.shuffle de la librería estándar, o baraja los índices)
+        np.random.shuffle(pairs)  # baraja la lista de tuplas in-place, sin problema
+                                # con que cada tupla tenga contextos de distinta longitud
         total_loss = 0.0
 
-        # for context_idxs, center_idx in tqdm(pairs, desc=f"epoch {epoch}"):
-        #     TODO 5: negatives = sample_negatives(neg_table, k, exclude_idx=center_idx)
-        #     TODO 6: loss, cache = forward_cbow(context_idxs, center_idx, negatives, W_in, W_out)
-        #     TODO 7: grads = backward_cbow(cache)
-        #     TODO 8: sgd_update(W_in, W_out, context_idxs, center_idx, negatives, grads, lr)
-        #     total_loss += loss
+        for context_idxs, center_idx in tqdm(pairs, desc=f"epoch {epoch + 1}/{epochs}"):
+            negatives = sample_negatives(neg_table, k, exclude_idx=center_idx)
+            loss, cache = forward_cbow(context_idxs, center_idx, negatives, W_in, W_out)
+            grads = backward_cbow(cache)
+            sgd_update(W_in, W_out, context_idxs, center_idx, negatives, grads, lr)
+            total_loss += loss
 
-        avg_loss = total_loss / max(len(token_indices), 1)  # ajusta al nº real de pares
+        avg_loss = total_loss / len(pairs)  # <- corregido: dividir por nº de ejemplos, no de tokens
         print(f"Epoch {epoch + 1}/{epochs} - loss media: {avg_loss:.4f}")
 
     return W_in, W_out
