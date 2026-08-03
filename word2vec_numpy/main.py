@@ -45,6 +45,7 @@ def main():
     # TODO: token_indices = [word2idx[t] for t in tokens if t in word2idx]
     tokens = tokenize(text)
     word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
+    tokens = [t for t in tokens if t in word2idx]
     tokens = subsample(tokens, word_freqs)
     token_indices = [word2idx[t] for t in tokens if t in word2idx]
 
