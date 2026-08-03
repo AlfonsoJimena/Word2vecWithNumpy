@@ -66,7 +66,7 @@ def main():
     np.save(OUT_EMBEDDINGS_PATH, W_in)
     with open(OUT_VOCAB_PATH, "w", encoding="utf-8") as f: 
         json.dump(word2idx, f, ensure_ascii=False)
-    print("TODO: pipeline completo pendiente de implementar")
+    print("TODO: terminado, embeddings y vocabulario guardados en disco.")
 
 
 if __name__ == "__main__":
