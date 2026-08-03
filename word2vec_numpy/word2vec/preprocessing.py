@@ -24,7 +24,7 @@ def tokenize(text: str) -> list[str]:
 
     return tokens
 
-def build_vocab(tokens: list[str], min_count: int = 5) -> tuple[dict, dict, dict]:
+def build_vocab(tokens: list[str], min_count: int = 1) -> tuple[dict, dict, dict]:
     """
     Construye el vocabulario a partir de la lista de tokens.
     Filtra las palabras primero y luego asigna los índices.
