@@ -17,9 +17,9 @@ from word2vec.train import train
 
 # ---- Hiperparámetros (juegar con estos valores) ----
 CORPUS_PATH = "word2vec_numpy/data/corpus.txt"
-MIN_COUNT = 1          # ignora palabras que aparecen menos de N veces
-WINDOW_SIZE = 2         # nº de palabras de contexto a cada lado
-EMBEDDING_DIM = 50      # dimensión de los vectores (D)
+MIN_COUNT = 10          # ignora palabras que aparecen menos de N veces
+WINDOW_SIZE = 5         # nº de palabras de contexto a cada lado
+EMBEDDING_DIM = 100      # dimensión de los vectores (D)
 NEGATIVE_SAMPLES = 5    # k, nº de negativos por ejemplo positivo
 LEARNING_RATE = 0.025
 EPOCHS = 5
