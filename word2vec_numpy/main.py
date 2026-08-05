@@ -25,9 +25,8 @@ LEARNING_RATE = 0.025
 EPOCHS = 5
 SEED = 42
 
-OUT_EMBEDDINGS_PATH = "embeddings/W_in.npy"
-OUT_VOCAB_PATH = "embeddings/word2idx.json"
-
+OUT_EMBEDDINGS_PATH = "word2vec_numpy/embeddings/W_in.npy"
+OUT_VOCAB_PATH = "word2vec_numpy/embeddings/word2idx.json"
 
 def main():
     # 1. Cargar el corpus
