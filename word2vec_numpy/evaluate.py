@@ -12,8 +12,8 @@ import json
 import numpy as np
 
 
-def load_embeddings(npy_path: str = "embeddings/W_in.npy",
-                     vocab_path: str = "embeddings/word2idx.json") -> tuple[np.ndarray, dict, dict]:
+def load_embeddings(npy_path: str = "word2vec_numpy/embeddings/W_in.npy",
+                     vocab_path: str = "word2vec_numpy/embeddings/word2idx.json") -> tuple[np.ndarray, dict, dict]:
     """
     Carga la matriz de embeddings y el vocabulario desde disco.
 
@@ -25,7 +25,11 @@ def load_embeddings(npy_path: str = "embeddings/W_in.npy",
     # TODO: W_in = np.load(npy_path)
     # TODO: cargar word2idx desde el json
     # TODO: construir idx2word invirtiendo word2idx
-    raise NotImplementedError
+    W_in = np.load(npy_path)
+    with open(vocab_path, "r", encoding="utf-8") as f:
+        word2idx = json.load(f)
+    idx2word = {v: k for k, v in word2idx.items()}
+    return W_in, word2idx, idx2word
 
 
 def cosine_similarity(v1: np.ndarray, v2: np.ndarray) -> float:
@@ -37,7 +41,11 @@ def cosine_similarity(v1: np.ndarray, v2: np.ndarray) -> float:
     vector tiene norma 0 (añade un epsilon pequeño al denominador).
     """
     # TODO: implementar
-    raise NotImplementedError
+    dot_product = np.dot(v1, v2)
+    norm_v1 = np.linalg.norm(v1)
+    norm_v2 = np.linalg.norm(v2)    
+    similarity = dot_product / (norm_v1 * norm_v2 + 1e-8)
+    return similarity
 
 
 def most_similar(word: str, W_in: np.ndarray, word2idx: dict, idx2word: dict, topn: int = 10) -> list[tuple[str, float]]:
@@ -62,13 +70,36 @@ def most_similar(word: str, W_in: np.ndarray, word2idx: dict, idx2word: dict, to
         luego np.argsort(-sims) para ordenar de mayor a menor.
     """
     # TODO: implementar de forma vectorizada
-    raise NotImplementedError
+    target_idx = word2idx[word]
+    v = W_in[target_idx]                      # Vector de la palabra (D,)
+    
+    norms = np.linalg.norm(W_in, axis=1)      # Normas de todos los vectores (V,)
+    
+    # Multiplicación matricial (V, D) @ (D,) -> (V,)
+    # Se divide por la norma combinada usando broadcast
+    sims = (W_in @ v) / (norms * np.linalg.norm(v) + 1e-8)
+    
+    # argsort ordena de menor a mayor. Con el signo menos (-sims) invertimos el orden
+    # para que los valores más altos (mayor similitud) queden al principio.
+    sorted_idxs = np.argsort(-sims)
+    
+    results = []
+    for idx in sorted_idxs:
+        if idx == target_idx:
+            continue # Saltamos la palabra de origen para no devolverla como vecina
+            
+        results.append((idx2word[idx], float(sims[idx])))
+        
+        if len(results) == topn:
+            break
+            
+    return results
 
 
 if __name__ == "__main__":
     W_in, word2idx, idx2word = load_embeddings()
 
-    palabras_de_prueba = ["rey", "gato", "casa"]  # cambia esto por palabras de TU corpus
+    palabras_de_prueba = ["niño", "gente", "el"]  # cambia esto por palabras de TU corpus
     for w in palabras_de_prueba:
         if w not in word2idx:
             print(f"'{w}' no está en el vocabulario, prueba con otra palabra de tu corpus.")
