@@ -71,6 +71,10 @@ def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx:
     W_in, W_out = init_weights(vocab_size, embedding_dim)
 
     pairs = generate_cbow_pairs(token_indices, window_size)
+
+    if len(pairs) == 0:
+        raise ValueError("¡No se ha generado ningún par de entrenamiento! Revisa el tamaño de tu corpus o baja el MIN_COUNT.")
+    
     neg_table = build_negative_sampling_table(word_freqs, word2idx)
 
     for epoch in range(epochs):
