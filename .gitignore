@@ -3,6 +3,6 @@ __pycache__/
 embeddings/*.npy
 embeddings/*.json
 corpusextract.py
-data/corpus.txt
+word2vec_numpy/data/corpus.txt
 .venv/
 venv/
