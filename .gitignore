@@ -6,3 +6,4 @@ corpusextract.py
 word2vec_numpy/data/corpus.txt
 .venv/
 venv/
+.vscode
