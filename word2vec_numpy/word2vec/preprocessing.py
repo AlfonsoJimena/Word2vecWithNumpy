@@ -12,7 +12,7 @@ import numpy as np
 
 def tokenize(text: str) -> list[str]:
     """
-    Convierte un texto crudo en una lista de tokens (palabras).
+    Convierte un texto crudo en una lista de tokens.
 
     Args:
         text: el contenido completo del corpus como un único string.

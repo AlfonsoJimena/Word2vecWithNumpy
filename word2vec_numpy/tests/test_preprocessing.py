@@ -4,11 +4,11 @@ from word2vec_numpy.word2vec.preprocessing import tokenize, build_vocab, subsamp
 class TestPreprocessing(unittest.TestCase):
 
     def test_tokenize(self):
-        text = 'El gato duerme, tranbquilamente, en el sofá.'
+        text = 'El gato duerme, tranquilamente, en el sofá.'
 
         result = tokenize(text)
 
-        self.assertEqual(result, ['el', 'gato', 'duerme', 'tranbquilamente', 'en', 'el', 'sofá'])
+        self.assertEqual(result, ['el', 'gato', 'duerme', 'tranquilamente', 'en', 'el', 'sofá'])
 
 if __name__ == '__main__':
     unittest.main()
