@@ -30,13 +30,13 @@ def build_vocab(tokens: list[str], min_count: int = 1) -> tuple[dict, dict, dict
     Filtra las palabras primero y luego asigna los índices.
 
     Args:
-        tokens: lista de todos los tokens del corpus (puede tener repetidos).
+        tokens: lista de todos los tokens del corpus.
         min_count: descarta palabras que aparecen menos de min_count veces.
 
     Returns:
         word2idx: dict {palabra: indice}
         idx2word: dict {indice: palabra}
-        word_freqs: dict {palabra: frecuencia_absoluta}  (solo de las que sobreviven al filtro)
+        word_freqs: dict {palabra: frecuencia_absoluta}
     """
     word2idx = {}
     idx2word = {}
@@ -47,7 +47,7 @@ def build_vocab(tokens: list[str], min_count: int = 1) -> tuple[dict, dict, dict
         if count>= min_count:
             word_freqs[word] = count
 
-    word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True)) # Se ordenan las palabras filtradas
+    word_freqs_ordenado = dict(sorted(word_freqs.items(), key=lambda x: x[1], reverse=True)) # Se ordenan las palabras filtradas. Las más frecuentes van a los índices más bajos. 
 
     for i, word in enumerate(word_freqs_ordenado):
         word2idx[word] = i
