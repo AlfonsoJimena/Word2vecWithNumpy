@@ -24,6 +24,7 @@ def tokenize(text: str) -> list[str]:
 
     return tokens
 
+
 def build_vocab(tokens: list[str], min_count: int = 1) -> tuple[dict, dict, dict]:
     """
     Construye el vocabulario a partir de la lista de tokens.
@@ -60,18 +61,21 @@ def build_vocab(tokens: list[str], min_count: int = 1) -> tuple[dict, dict, dict
 
 def subsample(tokens: list[str], word_freqs: dict, threshold: float = 1e-5) -> list[str]:
     """
-    Elimina probabilísticamente palabras muy frecuentes (the, de, y, el...)
-    siguiendo la fórmula del paper de Mikolov:
+    Elimina probabilísticamente palabras muy frecuentes, siguiendo la fórmula del paper de Mikolov:
 
         P(descartar w) = 1 - sqrt(threshold / freq_relativa(w))
 
-    Mejora mucho la calidad de los embeddings ya que evita que el
-    entrenamiento se sature de palabras poco informativas.
+    La calidad de los embeddings mejora debido a que se evita que el entrenamiento
+    se sature de palabras poco informativas.
 
+    Paper usado como referencia: https://arxiv.org/pdf/1310.4546.pdf
+        Distributed Representations of Words and Phrases and their Compositionality, Mikolov et al., 2013.
+        2.3 Subsampling of frequent words
+    
     Args:
-        tokens: lista de tokens original (ya filtrada a vocabulario válido).
+        tokens: Lista de tokens .
         word_freqs: dict {palabra: frecuencia_absoluta} de build_vocab().
-        threshold: umbral típico 1e-5 (cuanto más bajo, más agresivo el filtrado).
+        threshold: Umbral típico 1e-5.
 
     Returns:
         Nueva lista de tokens, más corta, con las palabras muy frecuentes
