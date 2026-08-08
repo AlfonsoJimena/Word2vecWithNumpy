@@ -2,7 +2,7 @@
 preprocessing.py
 -----------------
 Todo lo relacionado con convertir texto crudo en algo que el modelo pueda usar:
-tokenizar, construir vocabulario y hacer subsampling de palabras muy frecuentes.
+tokenizar, construir el vocabulario y hacer subsampling de palabras muy frecuentes.
 """
 
 import re
