@@ -3,6 +3,7 @@ import numpy as np
 from word2vec_numpy.word2vec.model import sigmoid, init_weights, forward_cbow, backward_cbow
 
 class TestModel(unittest.TestCase):
+    
     def test_sigmoid(self):
         raise NotImplementedError("Test not implemented yet.")
 
