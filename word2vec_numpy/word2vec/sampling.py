@@ -15,9 +15,9 @@ def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[
     """
     Recorre la secuencia de tokens y genera pares (contexto, centro) para CBOW.
 
-    Paper usado como referencia: https://arxiv.org/pdf/1310.4546.pdf
-        Distributed Representations of Words and Phrases and their Compositionality, Mikolov et al., 2013.
-        2.3 Subsampling of frequent words
+    Paper usado como referencia: https://arxiv.org/pdf/1301.3781.pdf
+        Efficient Estimation of Word Representations in Vector Space, Mikolov et al., 2013.
+        3.1 Continuous Bag-of-Words Model
 
     Args:
         token_indices: lista de enteros, cada uno el índice de vocabulario
