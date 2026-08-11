@@ -1,19 +1,19 @@
-################################################################################ PRUEBAS (ELIMINAR PARA VERSIóN FINAL) ####################################################################################################
-if __name__ == "__main__":
-    # Prueba rápida con dimensiones de juguete, para comprobar que las formas
-    # (shapes) de todo cuadran antes de meterlo en el bucle de entrenamiento real.
-    V, D = 20, 8
-    W_in, W_out = init_weights(V, D, seed=42)
+import unittest
+import numpy as np
+from word2vec_numpy.word2vec.model import sigmoid, init_weights, forward_cbow, backward_cbow
 
-    context = [1, 2, 4, 5]
-    center = 3
-    negatives = np.array([7, 8, 9])
+class TestModel(unittest.TestCase):
+    def test_sigmoid(self):
+        raise NotImplementedError("Test not implemented yet.")
 
-    loss, cache = forward_cbow(context, center, negatives, W_in, W_out)
-    print("Loss:", loss)
+    def test_init_weights(self):
+        raise NotImplementedError("Test not implemented yet.")
 
-    grads = backward_cbow(cache)
-    print("grad_context shape:", grads["grad_context"].shape)   # esperado: (D,)
-    print("grad_u_o shape:", grads["grad_u_o"].shape)             # esperado: (D,)
-    print("grad_u_neg shape:", grads["grad_u_neg"].shape)         # esperado: (3, D)
-    ##########################################################################################################################################################################################################################
+    def test_forward_cbow(self):
+        raise NotImplementedError("Test not implemented yet.")
+
+    def test_backward_cbow(self):
+        raise NotImplementedError("Test not implemented yet.")
+
+if __name__ == '__main__':
+    unittest.main()
