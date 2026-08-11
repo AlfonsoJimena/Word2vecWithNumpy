@@ -16,7 +16,17 @@ class TestModel(unittest.TestCase):
         self.assertEqual(result.shape, x.shape, "El array de salida debe tener el mismo tamaño que el de entrada")
 
     def test_init_weights(self):
-        raise NotImplementedError("Test not implemented yet.")
+        vocab_size = 4
+        embedding_dim = 2
+
+        result_W_in, result_W_out = init_weights(vocab_size, embedding_dim, seed=42)
+
+        self.assertEqual(result_W_in.shape, (vocab_size, embedding_dim), "W_in shape incorrecta")
+        self.assertEqual(result_W_out.shape, (vocab_size, embedding_dim), "W_out shape incorrecta")
+        self.assertTrue(np.all(result_W_out == 0), "W_out debe inicializarse a ceros")
+        self.assertTrue(np.all(result_W_in >= -0.5 / embedding_dim), msg="Hay valores por debajo del límite mínimo")
+        self.assertTrue(np.all(result_W_in <= 0.5 / embedding_dim), msg="Hay valores por encima del límite máximo")
+
 
     def test_forward_cbow(self):
         raise NotImplementedError("Test not implemented yet.")
