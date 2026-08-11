@@ -1,8 +1,7 @@
 """
 sampling.py
 -----------
-Generación de los pares de entrenamiento para CBOW, y el muestreo de
-negativos (negative sampling).
+Generación de los pares de entrenamiento para CBOW, y el negative sampling.
 
 En CBOW, cada ejemplo de entrenamiento:
     ([contexto_1, contexto_2, ..., contexto_n], centro)
@@ -32,8 +31,8 @@ def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[
     for i in range(len(token_indices)):
         centro = token_indices[i]
         
-        inicio_izq = max(0, i - window_size)      # nunca bajar de 0
-        fin_der = min(len(token_indices), i + window_size + 1)   # nunca pasarte del final
+        inicio_izq = max(0, i - window_size)      
+        fin_der = min(len(token_indices), i + window_size + 1)   
         
         contexto = token_indices[inicio_izq : i] + token_indices[i+1 : fin_der]
         
