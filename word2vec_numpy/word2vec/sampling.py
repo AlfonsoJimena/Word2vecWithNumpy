@@ -102,5 +102,9 @@ def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
 
     negatives = np.random.choice(table, size=k)
 
+    while exclude_idx in negatives:
+        mask = (negatives == exclude_idx)
+        negatives[mask] = np.random.choice(table, size=mask.sum())
+
     return negatives
 
