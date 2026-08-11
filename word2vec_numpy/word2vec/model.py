@@ -41,6 +41,8 @@ def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -
         W_in:  np.ndarray shape (V, D)  -> embeddings "de entrada" (contexto)
         W_out: np.ndarray shape (V, D)  -> embeddings "de salida" (palabra a predecir)
     """
+    if seed is not None: np.random.seed(seed)
+
     W_in = np.random.uniform(-0.5/embedding_dim, 0.5/embedding_dim, size=(vocab_size, embedding_dim))
     W_out = np.zeros((vocab_size, embedding_dim)) # Inicializado con zeros, aunque también podría ser random pequeño.
     return W_in, W_out
