@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 from word2vec_numpy.word2vec.sampling import generate_cbow_pairs, build_negative_sampling_table, sample_negatives
 
 class TestSampling(unittest.TestCase):
@@ -30,7 +31,14 @@ class TestSampling(unittest.TestCase):
         self.assertAlmostEqual((result == 0).sum() / table_size, 0.82, delta=0.1)
 
     def test_sample_negatives(self):
-        raise NotImplementedError("Test not implemented yet.")
-
+        table = np.array([0, 1, 2, 3, 4, 5])
+        k = 3
+        exclude_idx = 2
+        
+        result = sample_negatives(table, k, exclude_idx)
+        
+        self.assertEqual(len(result), k)
+        self.assertNotIn(exclude_idx, result)
+        
 if __name__ == '__main__':
     unittest.main()
