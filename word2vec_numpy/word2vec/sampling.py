@@ -15,6 +15,10 @@ def generate_cbow_pairs(token_indices: list[int], window_size: int = 2) -> list[
     """
     Recorre la secuencia de tokens y genera pares (contexto, centro) para CBOW.
 
+    Paper usado como referencia: https://arxiv.org/pdf/1310.4546.pdf
+        Distributed Representations of Words and Phrases and their Compositionality, Mikolov et al., 2013.
+        2.3 Subsampling of frequent words
+
     Args:
         token_indices: lista de enteros, cada uno el índice de vocabulario
                         de un token.
@@ -48,15 +52,20 @@ def build_negative_sampling_table(word_freqs: dict, word2idx: dict,
     Precalcula una tabla grande de índices de palabras, donde cada palabra
     aparece un número de veces proporcional a freq(palabra)^power.
 
-    Elevar a 0.75 (en vez de usar la frecuencia directa) es la receta del
-    paper original: suaviza la distribución para que las palabras extremadamente raras
-    tengan algo más de probabilidad, y las pocas palabras muy frecuentes no dominen tanto el muestreo.
+    Elevar a 0.75 (en vez de usar la frecuencia directa) es la técnica de 
+    suavizado empírica introducida para el Negative Sampling en Word2Vec. 
+    Esto aumenta la probabilidad de extraer palabras extremadamente raras y 
+    penaliza a las palabras muy frecuentes para que no dominen el muestreo.
+
+    Paper usado como referencia: https://arxiv.org/pdf/1310.4546.pdf
+            Distributed Representations of Words and Phrases and their Compositionality, Mikolov et al., 2013.
+            2.2 Negative Sampling
 
     Args:
         word_freqs: dict {palabra: frecuencia_absoluta}
         word2idx: dict {palabra: indice}
         table_size: tamaño de la tabla precomputada.
-        power: exponente de suavizado, 0.75 en el paper original.
+        power: exponente de suavizado (0.75 por defecto, según el paper original).
 
     Returns:
         np.ndarray de shape (table_size,) con índices de palabras (dtype=int).
