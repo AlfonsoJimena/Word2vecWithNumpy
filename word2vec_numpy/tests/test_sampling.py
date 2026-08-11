@@ -29,7 +29,6 @@ class TestSampling(unittest.TestCase):
         self.assertEqual(len(result), table_size)
         self.assertAlmostEqual((result == 0).sum() / table_size, 0.82, delta=0.1)
 
-
     def test_sample_negatives(self):
         raise NotImplementedError("Test not implemented yet.")
 

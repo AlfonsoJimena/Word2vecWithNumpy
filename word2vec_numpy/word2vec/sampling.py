@@ -93,7 +93,7 @@ def sample_negatives(table: np.ndarray, k: int, exclude_idx: int) -> np.ndarray:
 
     Args:
         table: la tabla devuelta por build_negative_sampling_table().
-        k: cuántos negativos se necesitan (típicamente 5-15 para corpus pequeños).
+        k: cuántos negativos se necesitan.
         exclude_idx: índice de la palabra centro real, para no muestrearla por error.
 
     Returns:
