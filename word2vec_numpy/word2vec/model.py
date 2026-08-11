@@ -54,11 +54,6 @@ def forward_cbow(context_idxs: list[int], center_idx: int, negative_idxs: np.nda
     """
     Forward pass de un ejemplo CBOW con Negative Sampling.
 
-    La función de pérdida implementada corresponde a la ecuación (4) de 
-    Mikolov et al. (2013), mientras que la formulación matricial (promedio 
-    del contexto y productos punto) sigue la derivación detallada por 
-    Xin Rong (2014).
-
     Paper usado como referencia: https://arxiv.org/pdf/1411.2738.pdf
         word2vec Parameter Learning Explained, Xin Rong, 2014.
         3.1 Continuous Bag-of-Words Model y 4. Negative Sampling
