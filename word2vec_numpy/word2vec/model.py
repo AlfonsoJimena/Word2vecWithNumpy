@@ -34,7 +34,7 @@ def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -
 
     Args:
         vocab_size: V, tamaño del vocabulario.
-        embedding_dim: D, dimensión de cada vector (típico 50-300 para juguetear).
+        embedding_dim: D, dimensión de cada vector.
         seed: opcional, para reproducibilidad.
 
     Returns:
@@ -44,7 +44,7 @@ def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -
     if seed is not None: np.random.seed(seed)
 
     W_in = np.random.uniform(-0.5/embedding_dim, 0.5/embedding_dim, size=(vocab_size, embedding_dim))
-    W_out = np.zeros((vocab_size, embedding_dim)) # Inicializado con zeros, aunque también podría ser random pequeño.
+    W_out = np.zeros((vocab_size, embedding_dim)) 
     return W_in, W_out
 
 
