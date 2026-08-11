@@ -3,9 +3,6 @@ sampling.py
 -----------
 Generación de los pares de entrenamiento para CBOW, y el negative sampling.
 
-En CBOW, cada ejemplo de entrenamiento:
-    ([contexto_1, contexto_2, ..., contexto_n], centro)
-es decir: varias palabras de contexto que deben predecir UNA palabra centro.
 """
 
 import numpy as np
