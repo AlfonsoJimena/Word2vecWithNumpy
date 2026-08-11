@@ -52,8 +52,16 @@ def init_weights(vocab_size: int, embedding_dim: int, seed: int | None = None) -
 def forward_cbow(context_idxs: list[int], center_idx: int, negative_idxs: np.ndarray,
                   W_in: np.ndarray, W_out: np.ndarray) -> tuple[float, dict]:
     """
-    Forward pass de un ejemplo CBOW: dado un conjunto de palabras de contexto,
-    predice la palabra centro (contra k negativos).
+    Forward pass de un ejemplo CBOW con Negative Sampling.
+
+    La función de pérdida implementada corresponde a la ecuación (4) de 
+    Mikolov et al. (2013), mientras que la formulación matricial (promedio 
+    del contexto y productos punto) sigue la derivación detallada por 
+    Xin Rong (2014).
+
+    Paper usado como referencia: https://arxiv.org/pdf/1411.2738.pdf
+        word2vec Parameter Learning Explained, Xin Rong, 2014.
+        3.1 Continuous Bag-of-Words Model y 4. Negative Sampling
 
     Args:
         context_idxs: lista de índices de las palabras de contexto (longitud variable).
@@ -65,23 +73,14 @@ def forward_cbow(context_idxs: list[int], center_idx: int, negative_idxs: np.nda
         loss: float, la pérdida de este ejemplo (para poder monitorizarla en train.py).
         cache: dict con todo lo que backward_cbow() necesitará para no recalcularlo
                (v_ctx, u_o, u_neg, g_pos, g_neg, context_idxs, center_idx, negative_idxs...)
-
-    Pasos:
-        1. v_ctx = W_in[context_idxs].mean(axis=0)          # (D,)
-        2. u_o   = W_out[center_idx]                         # (D,)
-        3. u_neg = W_out[negative_idxs]                      # (k, D)
-        4. score_pos = v_ctx . u_o                           # escalar
-        5. scores_neg = u_neg @ v_ctx                        # (k,)
-        6. loss = -log(sigmoid(score_pos)) - sum(log(sigmoid(-scores_neg)))
-           (usa np.clip o suma un epsilon pequeño dentro del log para evitar log(0))
     """
     
-    v_ctx = W_in[context_idxs].mean(axis=0)  # (D,)
-    u_o = W_out[center_idx]  # (D,)
-    u_neg = W_out[negative_idxs]  # (k, D)
-    score_pos = np.dot(v_ctx, u_o)  # escalar
-    scores_neg = np.dot(u_neg, v_ctx)  # (k,)
-    loss = -np.log(sigmoid(score_pos)) - np.sum(np.log(sigmoid(-scores_neg) + 1e-10))  # Añadimos un epsilon para evitar log(0)
+    v_ctx = W_in[context_idxs].mean(axis=0)  
+    u_o = W_out[center_idx]  
+    u_neg = W_out[negative_idxs]  
+    score_pos = np.dot(v_ctx, u_o)  
+    scores_neg = np.dot(u_neg, v_ctx) 
+    loss = -np.log(sigmoid(score_pos)) - np.sum(np.log(sigmoid(-scores_neg) + 1e-10))  
 
     return loss, {
         "v_ctx": v_ctx,
