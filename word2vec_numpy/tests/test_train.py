@@ -44,31 +44,31 @@ class TestWord2VecTraining(unittest.TestCase):
                                              err_msg="Fallo crítico: np.add.at no está acumulando los negativos duplicados")
     
     def test_train_end_to_end_integration(self):
-        # 1. Preparación: Creamos un micro-dataset de juguete
+
         vocab_size = 5
         embedding_dim = 2
-        # Simulamos una frase repetida: "el(0) gato(1) come(2) pescado(3) crudo(4)"
+        # Simulación de un corpus: "el(0) gato(1) come(2) pescado(3) crudo(4)"
         token_indices = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4] 
         
         # Frecuencias y diccionarios básicos
         word_freqs = {"el": 2, "gato": 2, "come": 2, "pescado": 2, "crudo": 2}
         word2idx = {"el": 0, "gato": 1, "come": 2, "pescado": 3, "crudo": 4}
 
-        # 2. Ejecución: Hacemos una pasada (1 epoch) por el motor completo
+        # 2. Ejecución: Pasada (1 epoch) por el motor completo
         W_in_final, W_out_final = train(
             token_indices=token_indices,
             vocab_size=vocab_size,
             word_freqs=word_freqs,
             word2idx=word2idx,
             embedding_dim=embedding_dim,
-            window_size=1,  # Ventana pequeñita
+            window_size=1,  # Ventana pequeña
             k=2,            # 2 palabras negativas
             lr=0.01,
-            epochs=1,       # Solo 1 iteración para que el test sea ultrarrápido
+            epochs=1,       # Solo 1 iteración para que el test sea rápido
             seed=42
         )
 
-        # 3. Comprobaciones de Ingeniería
+        # 3. Comprobaciones 
 
         # A) ¿Se han respetado las dimensiones durante todo el proceso?
         self.assertEqual(W_in_final.shape, (vocab_size, embedding_dim), 
@@ -77,20 +77,18 @@ class TestWord2VecTraining(unittest.TestCase):
                          "Las dimensiones de W_out se corrompieron durante el entrenamiento")
 
         # B) ¿Ha aprendido algo el modelo? 
-        # Sabemos que init_weights inicializa W_out TODO A CEROS.
-        # Si el motor (Forward -> Backward -> SGD) funciona, W_out ya no puede ser todo ceros.
         out_is_all_zeros = np.all(W_out_final == 0.0)
         self.assertFalse(out_is_all_zeros, 
                          "W_out sigue lleno de ceros. El SGD no está actualizando los pesos.")
 
     def test_train_empty_corpus_raises_error(self):
-        # 1. Preparación: Le pasamos un corpus vacío (simulando que el filtro 
+        # 1. Preparación: Corpus vacío (simulando que el filtro 
         # MIN_COUNT fue demasiado agresivo y borró todas las palabras)
         token_indices = [] 
         word_freqs = {"el": 1}
         word2idx = {"el": 0}
         
-        # 2. Ejecución y Comprobación: Verificamos que salte nuestra red de seguridad
+        # 2. Ejecución y Comprobación: Verificación de que salte la red de seguridad
         # El bloque 'with self.assertRaises' captura el error para que el test no falle
         with self.assertRaises(ValueError) as context:
             train(
@@ -101,7 +99,6 @@ class TestWord2VecTraining(unittest.TestCase):
                 epochs=1
             )
         
-        # Verificamos que el mensaje de error es exactamente el que programaste
         self.assertTrue("¡No se ha generado ningún par" in str(context.exception),
                         "No saltó el mensaje de error correcto al quedarse sin pares.")
 if __name__ == '__main__':
