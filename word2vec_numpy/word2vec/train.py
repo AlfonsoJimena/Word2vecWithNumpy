@@ -1,14 +1,13 @@
 """
 train.py
 --------
-El bucle de entrenamiento propiamente dicho. Junta todo lo de los otros
-módulos: genera pares, muestrea negativos, hace forward + backward,
-actualiza los pesos con SGD, y va imprimiendo la loss para que puedas
-comprobar que baja.
+Este archivo actúa como el motor central del modelo CBOW, integrando y coordinando
+los componentes de preprocesamiento de datos y las operaciones matemáticas base.
+Implementa el ciclo iterativo de optimización sobre el corpus de texto.
 """
 
 import numpy as np
-from tqdm import tqdm  # barra de progreso, opcional pero cómoda
+from tqdm import tqdm 
 
 from word2vec.sampling import generate_cbow_pairs, build_negative_sampling_table, sample_negatives
 from word2vec.model import init_weights, forward_cbow, backward_cbow
@@ -65,9 +64,6 @@ def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx:
     if seed is not None:
         np.random.seed(seed)
 
-    # init_weights ya usa np.random internamente, y como ya fijamos la seed
-    # arriba con np.random.seed(seed), no hace falta volver a pasarla aquí
-    # (tu implementación de init_weights no usa el parámetro seed de todas formas).
     W_in, W_out = init_weights(vocab_size, embedding_dim)
 
     pairs = generate_cbow_pairs(token_indices, window_size)
@@ -78,8 +74,8 @@ def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx:
     neg_table = build_negative_sampling_table(word_freqs, word2idx)
 
     for epoch in range(epochs):
-        np.random.shuffle(pairs)  # baraja la lista de tuplas in-place, sin problema
-                                # con que cada tupla tenga contextos de distinta longitud
+        np.random.shuffle(pairs)  
+                                
         total_loss = 0.0
 
         for context_idxs, center_idx in tqdm(pairs, desc=f"epoch {epoch + 1}/{epochs}"):
@@ -89,7 +85,7 @@ def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx:
             sgd_update(W_in, W_out, context_idxs, center_idx, negatives, grads, lr)
             total_loss += loss
 
-        avg_loss = total_loss / len(pairs)  # <- corregido: dividir por nº de ejemplos, no de tokens
+        avg_loss = total_loss / len(pairs)  
         print(f"Epoch {epoch + 1}/{epochs} - loss media: {avg_loss:.4f}")
 
     return W_in, W_out
