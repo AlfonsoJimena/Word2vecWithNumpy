@@ -54,6 +54,35 @@ class TestModel(unittest.TestCase):
                                msg="La función de pérdida matemática es incorrecta")
 
     def test_backward_cbow(self):
+        
+        cache = {
+            "context_idxs": [0, 2],  
+            "v_ctx": np.array([2.0, 0.0]),
+            "u_o": np.array([0.5, 0.0]),
+            "u_neg": np.array([[-1.0, 0.0], 
+                               [ 0.0, 1.0]]),
+            "score_pos": 1.0,
+            "scores_neg": np.array([-2.0, 0.0])
+        }
+
+        gradientes = backward_cbow(cache)
+
+        expected_grad_u_o = np.array([-0.538, 0.0])
+        np.testing.assert_array_almost_equal(
+            gradientes["grad_u_o"], expected_grad_u_o, decimal=3, 
+            err_msg="Fallo en el gradiente de la palabra positiva (u_o)"
+        )
+        expected_grad_u_neg = np.array([[0.238, 0.0], 
+                                        [1.000, 0.0]])
+        np.testing.assert_array_almost_equal(
+            gradientes["grad_u_neg"], expected_grad_u_neg, decimal=3, 
+            err_msg="Fallo en el gradiente de las palabras negativas (u_neg)"
+        )
+        expected_grad_context = np.array([-0.127, 0.250])
+        np.testing.assert_array_almost_equal(
+            gradientes["grad_context"], expected_grad_context, decimal=3, 
+            err_msg="Fallo al calcular o repartir el gradiente del contexto"
+        )
         raise NotImplementedError("Test not implemented yet.")
 
 if __name__ == '__main__':
