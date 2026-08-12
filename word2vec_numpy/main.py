@@ -1,7 +1,7 @@
 """
 main.py
 -------
-Punto de entrada del proyecto. Orquesta el pipeline completo:
+Orquestación del pipeline completo:
     texto crudo -> preprocesado -> pares CBOW -> entrenamiento -> guardar embeddings
 
 Ejecutar con:
@@ -15,53 +15,35 @@ from word2vec.preprocessing import tokenize, build_vocab, subsample
 from word2vec.train import train
 
 
-# ---- Hiperparámetros (juegar con estos valores) ----
+# ---- Hiperparámetros ----
 CORPUS_PATH = "word2vec_numpy/data/corpus.txt"
 MIN_COUNT = 10          # ignora palabras que aparecen menos de N veces
 WINDOW_SIZE = 5         # nº de palabras de contexto a cada lado
 EMBEDDING_DIM = 100      # dimensión de los vectores (D)
 NEGATIVE_SAMPLES = 5    # k, nº de negativos por ejemplo positivo
-LEARNING_RATE = 0.025
-EPOCHS = 5
-SEED = 42
+LEARNING_RATE = 0.025   # tasa de aprendizaje 
+EPOCHS = 5              # número de pasadas por el corpus
+SEED = 42               # reproducibilidad
 
 OUT_EMBEDDINGS_PATH = "word2vec_numpy/embeddings/W_in.npy"
 OUT_VOCAB_PATH = "word2vec_numpy/embeddings/word2idx.json"
 
 def main():
-    # 1. Cargar el corpus
-    # TODO: with open(CORPUS_PATH, encoding="utf-8") as f: text = f.read()
     with open(CORPUS_PATH, encoding="utf-8") as f: 
         text = f.read()
-    # 2. Preprocesar
-    # TODO: tokens = tokenize(text)
-    # TODO: word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
-    # TODO: tokens = subsample(tokens, word_freqs)   # opcional pero recomendado
-    #    tokens = tokenize(text)
-    #    word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
-    #    tokens = [t for t in tokens if t in word2idx]   # <- filtrar ANTES de subsample
-    #    tokens = subsample(tokens, word_freqs)
-    # TODO: token_indices = [word2idx[t] for t in tokens if t in word2idx]
+
     tokens = tokenize(text)
     word2idx, idx2word, word_freqs = build_vocab(tokens, min_count=MIN_COUNT)
     tokens = [t for t in tokens if t in word2idx]
     tokens = subsample(tokens, word_freqs)
     token_indices = [word2idx[t] for t in tokens if t in word2idx]
 
-    # 3. Entrenar
-    # TODO: W_in, W_out = train(
-    #           token_indices, vocab_size=len(word2idx), word_freqs=word_freqs,
-    #           word2idx=word2idx, embedding_dim=EMBEDDING_DIM, window_size=WINDOW_SIZE,
-    #           k=NEGATIVE_SAMPLES, lr=LEARNING_RATE, epochs=EPOCHS, seed=SEED,
-    #       )
     W_in, W_out = train(
         token_indices, vocab_size=len(word2idx), word_freqs=word_freqs,
         word2idx=word2idx, embedding_dim=EMBEDDING_DIM, window_size=WINDOW_SIZE,
         k=NEGATIVE_SAMPLES, lr=LEARNING_RATE, epochs=EPOCHS, seed=SEED,
     )
-    # 4. Guardar resultados
-    # TODO: np.save(OUT_EMBEDDINGS_PATH, W_in)
-    # TODO: with open(OUT_VOCAB_PATH, "w", encoding="utf-8") as f: json.dump(word2idx, f, ensure_ascii=False)
+    
     np.save(OUT_EMBEDDINGS_PATH, W_in)
     with open(OUT_VOCAB_PATH, "w", encoding="utf-8") as f: 
         json.dump(word2idx, f, ensure_ascii=False)
