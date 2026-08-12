@@ -39,7 +39,7 @@ def sgd_update(W_in: np.ndarray, W_out: np.ndarray, context_idxs: list[int],
     W_out[center_idx] -= lr * grads["grad_u_o"]
     np.add.at(W_out, negative_idxs, -lr * grads["grad_u_neg"])
 
-
+ 
 
 def train(token_indices: list[int], vocab_size: int, word_freqs: dict, word2idx: dict,
           embedding_dim: int = 50, window_size: int = 2, k: int = 5,
