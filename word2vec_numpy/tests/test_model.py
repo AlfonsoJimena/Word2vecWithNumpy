@@ -83,7 +83,6 @@ class TestModel(unittest.TestCase):
             gradientes["grad_context"], expected_grad_context, decimal=3, 
             err_msg="Fallo al calcular o repartir el gradiente del contexto"
         )
-        raise NotImplementedError("Test not implemented yet.")
 
 if __name__ == '__main__':
     unittest.main()
