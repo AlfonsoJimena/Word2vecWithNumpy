@@ -85,7 +85,11 @@ def most_similar(word: str, W_in: np.ndarray, word2idx: dict, idx2word: dict, to
 if __name__ == "__main__":
     W_in, word2idx, idx2word = load_embeddings()
 
-    palabras_de_prueba = ["niño", "gente", "el"]  # cambia esto por palabras de TU corpus
+    palabra_prueba_1 = str(input("1 - Introduce una palabra para ver sus vecinos más cercanos: "))
+    palabra_prueba_2 = str(input("2 - Introduce una palabra para ver sus vecinos más cercanos: "))
+    palabra_prueba_3 = str(input("3 - Introduce una palabra para ver sus vecinos más cercanos: "))
+
+    palabras_de_prueba = [palabra_prueba_1, palabra_prueba_2, palabra_prueba_3]  
     for w in palabras_de_prueba:
         if w not in word2idx:
             print(f"'{w}' no está en el vocabulario, prueba con otra palabra de tu corpus.")
