@@ -29,7 +29,29 @@ class TestModel(unittest.TestCase):
 
 
     def test_forward_cbow(self):
-        raise NotImplementedError("Test not implemented yet.")
+        W_in = np.zeros((5, 2))
+        W_in[0] = [1.0, 1.0]   # "el"
+        W_in[2] = [3.0, -1.0]  # "come"
+        
+        W_out = np.zeros((5, 2))
+        W_out[1] = [0.5, 0.0]  # "gato" (centro)
+        W_out[3] = [-1.0, 0.0] # "piedra" (negativo 1)
+        W_out[4] = [0.0, 1.0]  # "nube" (negativo 2)
+
+        context_idxs = [0, 2]
+        center_idx = 1
+        negative_idxs = np.array([3, 4])
+        loss, cache = forward_cbow(context_idxs, center_idx, negative_idxs, W_in, W_out)
+
+        np.testing.assert_array_almost_equal(cache["v_ctx"], [2.0, 0.0], err_msg="Fallo al promediar el contexto")
+        np.testing.assert_array_almost_equal(cache["u_o"], [0.5, 0.0], err_msg="Fallo al extraer el vector central") 
+        np.testing.assert_array_almost_equal(cache["u_neg"], [[-1.0, 0.0], [0.0, 1.0]], err_msg="Fallo al extraer vectores negativos")   
+        self.assertAlmostEqual(cache["score_pos"], 1.0, places=4, msg="Fallo en el producto punto positivo")   
+        np.testing.assert_array_almost_equal(cache["scores_neg"], [-2.0, 0.0], err_msg="Fallo en los productos punto negativos")
+        expected_loss = 1.1333
+        
+        self.assertAlmostEqual(loss, expected_loss, places=3, 
+                               msg="La función de pérdida matemática es incorrecta")
 
     def test_backward_cbow(self):
         raise NotImplementedError("Test not implemented yet.")
