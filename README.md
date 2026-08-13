@@ -38,22 +38,34 @@ bucle de entrenamiento:
 ## Estructura del proyecto
  
 ```
-word2vec-numpy/
-├── data/
-│   └── corpus.txt            # tu texto crudo
-├── embeddings/               # se genera al entrenar
-│   ├── W_in.npy
-│   └── word2idx.json
-├── word2vec/
-│   ├── __init__.py
-│   ├── preprocessing.py      # tokenizar, vocabulario, subsampling
-│   ├── sampling.py           # pares (contexto, centro) + negative sampling
-│   ├── model.py              # inicialización, forward, gradientes (CBOW)
-│   └── train.py              # el bucle de entrenamiento (SGD)
-├── evaluate.py               # similitud coseno, vecinos más cercanos
-└── main.py                   # orquesta todo el pipeline
-requirements.txt
-README.md
+Word2VecWithNumpy/
+├── images/                       
+├── papers/                       # papers usados para el desarrollo
+├── word2vec-numpy/
+    ├── data/
+        └── corpus.txt            
+    ├── embeddings/               # se genera al entrenar el modelo
+    │   ├── W_in.npy
+    │   └── word2idx.json
+    ├── tests/                    # se prueban todas las funciones de word2vec/
+        ├── __init__.py
+        ├── test_model.py
+        ├── test_preprocessing.py
+        ├── test_sampling.py
+        ├── test_train.py
+    ├── word2vec/                 # motor
+    │   ├── __init__.py
+    │   ├── preprocessing.py      # tokenizar, vocabulario, subsampling
+    │   ├── sampling.py           # pares (contexto, centro) + negative sampling
+    │   ├── model.py              # inicialización, forward, gradientes (CBOW)
+    │   └── train.py              # el bucle de entrenamiento (SGD)
+    ├── evaluate.py               # similitud coseno, vecinos más cercanos
+    ├── main.py                   # orquesta todo el pipeline
+├── .gitignore
+├── corpusextract.py              # archivo para volcar datos de wikipedia para el modelo
+├── LICENSE
+├── README.md
+└── requirements.txt
 ```
  
 ## Bucle de entrenamiento / Training loop
