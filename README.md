@@ -12,7 +12,7 @@ por cuestiones de tiempo y responsabilidades universitarias, he decidido desarro
 este proyecto como un summer side-project. El principal objetivo de este proyecto es
 entender todo el sistema Word2Vec y, quizás en un futuro, esta sea la base de otro
 proyecto, donde pueda implementar este motor para un caso práctico y todo desde local. 
-(con las limitaciones que esto implica, al ser local)
+(con las limitaciones que esto implica, al ser local).
 
 Siendo sincero, y teniendo en cuenta mi background de estudiante de Ingeniería de Datos (Grado en Ingeniería y Sistemas de Datos en la UPM). Parte del sistema ha sido muy difícil de desarrollar y comprender.
 - La parte de ingeniería dentro del word2vec **(preprocesing.py y sampling.py)** no me supuso mucho esfuerzo, ya que este tipo de trabajo se ha cubierto muy bien en mi grado con asignaturas y proyectos de asignaturas.
@@ -76,8 +76,8 @@ Word2VecWithNumpy/
     ├── data/
         └── corpus.txt            
     ├── embeddings/               # se genera al entrenar el modelo
-    │   ├── W_in.npy
-    │   └── word2idx.json
+        ├── W_in.npy
+        └── word2idx.json
     ├── tests/                    # se prueban todas las funciones de word2vec/
         ├── __init__.py
         ├── test_model.py
@@ -85,16 +85,16 @@ Word2VecWithNumpy/
         ├── test_sampling.py
         ├── test_train.py
     ├── word2vec/                 # motor
-    │   ├── __init__.py
-    │   ├── preprocessing.py      # tokenizar, vocabulario, subsampling
-    │   ├── sampling.py           # pares (contexto, centro) + negative sampling
-    │   ├── model.py              # inicialización, forward, gradientes (CBOW)
-    │   └── train.py              # el bucle de entrenamiento (SGD)
-    ├── evaluate.py               # similitud coseno, vecinos más cercanos
-    ├── main.py                   # orquesta todo el sistema
+        ├── __init__.py
+        ├── preprocessing.py      # tokenizar, vocabulario, subsampling
+        ├── sampling.py           # pares (contexto, centro) + negative sampling
+        ├── model.py              # inicialización, forward, gradientes (CBOW)
+        └── train.py              # el bucle de entrenamiento (SGD)
 ├── .gitignore
 ├── corpusextract.py              # archivo para volcar datos de wikipedia para el modelo
+├── evaluate.py               # similitud coseno, vecinos más cercanos
 ├── LICENSE
+├── main.py                   # orquesta todo el sistema
 ├── README.md
 └── requirements.txt
 ```
