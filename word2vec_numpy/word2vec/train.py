@@ -26,15 +26,8 @@ def sgd_update(W_in: np.ndarray, W_out: np.ndarray, context_idxs: list[int],
         negative_idxs: índices de las palabras negativas.
         grads: dict devuelto por backward_cbow().
         lr: learning rate.
-
-    Pista:
-        W_in[i] -= lr * grad   para cada i en context_idxs (todas usan el mismo
-                                 grad_context, porque el reparto ya se hizo en backward)
-        W_out[center_idx] -= lr * grads["grad_u_o"]
-        W_out[negative_idxs] -= lr * grads["grad_u_neg"]   (esto es una operación vectorizada,
-                                 ojo si hay negativos repetidos: np.add.at es más seguro que -=
-                                 directo cuando hay índices duplicados)
     """
+    
     np.add.at(W_in, context_idxs, -lr * grads["grad_context"])
     W_out[center_idx] -= lr * grads["grad_u_o"]
     np.add.at(W_out, negative_idxs, -lr * grads["grad_u_neg"])
