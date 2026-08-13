@@ -35,7 +35,7 @@ Mi flujo de trabajo para este proyecto de aprendizaje ha sido básicamente de **
 Aparte de pulir y dejar más profesional este README.md, tengo pensado modificar un poco más el código base, ya que tengo un código en "espaniglish", esto provoca que seguir el código resulta en una tarea algo difícil para alguien aparte de mí, pero por ahora lo dejo disponible ya que funciona sin problema y es reproducible.
 
 Pienso en sacarle alguna utilidad en un futuro a este motor, aunque sea pequeña (análisis de sentimiento, un pequeño ChatBot local...), pero por ahora me queda trabajo, ya que quiero dejar este proyecto totalmente presentable y reproducible tanto en Linux, Windows y MacOS. Me planteo incluso la posibilidad de poder dockerizarlo.
- 
+
 ## Instalación
  
 ```bash

@@ -11,8 +11,7 @@ Ejecutar con:
 import json
 import numpy as np
 
-from word2vec.preprocessing import tokenize, build_vocab, subsample
-from word2vec.train import train
+from word2vec_numpy.word2vec import tokenize, build_vocab, subsample, train
 
 
 # ---- Hiperparámetros ----
