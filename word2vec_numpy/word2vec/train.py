@@ -9,8 +9,8 @@ Implementa el ciclo iterativo de optimización sobre el corpus de texto.
 import numpy as np
 from tqdm import tqdm 
 
-from word2vec.sampling import generate_cbow_pairs, build_negative_sampling_table, sample_negatives
-from word2vec.model import init_weights, forward_cbow, backward_cbow
+from .sampling import generate_cbow_pairs, build_negative_sampling_table, sample_negatives
+from .model import init_weights, forward_cbow, backward_cbow
 
 
 def sgd_update(W_in: np.ndarray, W_out: np.ndarray, context_idxs: list[int],
