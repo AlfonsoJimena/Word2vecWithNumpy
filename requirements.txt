@@ -1,2 +1,4 @@
 numpy
 tqdm
+datasets
+json

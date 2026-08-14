@@ -37,17 +37,36 @@ Aparte de pulir y dejar más profesional este README.md, tengo pensado modificar
 Pienso en sacarle alguna utilidad en un futuro a este motor, aunque sea pequeña (análisis de sentimiento, un pequeño ChatBot local...), pero por ahora me queda trabajo, ya que quiero dejar este proyecto totalmente presentable y reproducible tanto en Linux, Windows y MacOS. Me planteo incluso la posibilidad de poder dockerizarlo.
 
 ## Instalación
+Clona este repositorio en tu máquina y accede a él desde la terminal.
+
+Después, ejecuta los siguientes comandos:
  
 ```bash
+# Crear entorno virtual
+python -m venv venv
+
+# Activar en Windows
+venv\Scripts\activate
+
+# Activar en Linux/MacOS (Todavía no se ha probado en estos SO)
+source venv/bin/activate
+```
+Una vez activado el entorno, instala las dependencias necesarias:
+
+```bash
 pip install -r requirements.txt
- 
-VersiónPython: 3.12.10
 ```
  
 ## Uso
  
-1. Coloca tu corpus de texto en `data/corpus.txt`.
-2. Ajusta hiperparámetros en `main.py` si quieres (dimensión, ventana, epochs...).
+1. Coloca tu corpus de texto en la ruta data/corpus.txt.
+(Alternativamente, puedes ejecutar el script de extracción para volcar datos directamente desde Wikipedia):
+
+```bash
+python corpusextract.py
+```
+
+2. Ajusta hiperparámetros en `main.py` si quieres usando un editor de código (dimensión, ventana, epochs...).
 3. Entrena:
 ```bash
 python main.py
