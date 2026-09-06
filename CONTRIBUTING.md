@@ -30,7 +30,7 @@ Cada rama debe empezar con un prefijo que indique el tipo de cambio, seguido de 
 Cada mensaje de commit debe seguir el formato:
 
 ```
-<tipo>(<ámbito opcional>): <descripción breve en presente>
+<tipo>(<ámbito>): <descripción breve en presente>
 ```
 
 **Tipos permitidos:**
@@ -47,8 +47,7 @@ Cada mensaje de commit debe seguir el formato:
 - `ci`: cambios en archivos y scripts de integración continua (ej. workflows de GitHub Actions)
 - `revert`: revierte un commit anterior
 
-**Sobre seguridad:** para issues o commits relacionados con seguridad (ej. vulnerabilidades en dependencias), lo más habitual en Conventional Commits es usar el tipo `fix` con el ámbito `security`, por ejemplo `fix(security): actualizar numpy por vulnerabilidad CVE-XXXX`. Si prefieres mantener `security` como categoría propia para etiquetar issues (label) o como tipo de commit personalizado, es válido siempre que lo uses de forma consistente en todo el repositorio.
-
+**Sobre seguridad:** para issues o commits relacionados con seguridad (ej. vulnerabilidades en dependencias), es usar el tipo `fix` con el ámbito `security`, por ejemplo `fix(security): actualizar numpy por vulnerabilidad CVE-XXXX`.
 **Ejemplos:**
 
 ```
@@ -72,7 +71,7 @@ fix(security): actualizar dependencia con vulnerabilidad conocida
 
 ## Pull Requests
 
-- Usa un título claro, idealmente también en formato Conventional Commits.
+- Usa un título claro, usando también en formato Conventional Commits.
 - Describe brevemente qué cambia y por qué.
 - Vincula el issue relacionado con `Closes #<número>` si corresponde.
 - Asegúrate de que el código pasa los tests antes de solicitar revisión.
