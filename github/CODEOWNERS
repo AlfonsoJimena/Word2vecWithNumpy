@@ -1,0 +1,4 @@
+# Cada línea asigna uno o varios propietarios a un patrón de archivos.
+# El patrón "*" cubre todo el repositorio.
+
+* @AlfonsoJimena
