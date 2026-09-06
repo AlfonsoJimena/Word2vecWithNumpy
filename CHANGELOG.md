@@ -4,6 +4,13 @@ Todos los cambios notables del proyecto **Word2VecWithNumpy** se documentarán e
 
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y este proyecto se adhiere al [Versionado Semántico](https://semver.org/lang/es/).
 
+## [Unreleased] - 2026-09-06
+### Added
+- Archivo CONTRIBUTING.md, que contiene una guía para los contrubuidores y el flujo de trabajo junto con:
+    - Convención de nombres de ramas
+    - Conventional Commits
+    - Reglas para Pull Requests
+
 ## [1.0.0] - 2026-08-14
 ### Added
 - Confirmación de reproducibilidad y portabilidad del entorno en múltiples dispositivos Windows.
