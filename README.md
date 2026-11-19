@@ -1,4 +1,8 @@
 # Word2VecWithNumpy - Un pequeñísimo modelo en local
+
+[![Versión](https://img.shields.io/badge/versión-0.1.0-blue)](CHANGELOG.md)
+[![NumPy](https://img.shields.io/badge/NumPy-puro-013243)](https://numpy.org/)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green)](LICENSE)
  
 Implementación de **CBOW con negative sampling** en NumPy puro, sin frameworks
 de deep learning (PyTorch/TensorFlow), como ejercicio para entender de primera
@@ -125,6 +129,38 @@ Detalle del bucle de entrenamiento (`forward_cbow` → `backward_cbow` →
  
 ![Bucle de entrenamiento y esquema de tensores](images/bucle_entrenamiento.png)
  
+## Hoja de ruta
+
+Próximos pasos del proyecto, agrupados por versión. Los cambios de cada versión publicada se detallan en el [CHANGELOG](CHANGELOG.md).
+
+### v0.1.0 — Punto de partida
+
+- [ ] Unificar el historial en el `CHANGELOG.md` y publicar la etiqueta `v0.1.0`.
+
+### v0.2.0 — Infraestructura
+
+- [ ] Separar las dependencias de ejecución y de desarrollo (`pytest`, `datasets`...) y fijar versiones mínimas.
+- [ ] Pipeline de tests en GitHub Actions sobre Linux, Windows y macOS con varias versiones de Python.
+- [ ] Comprobar que la CI detecta fallos alterando hiperparámetros a propósito.
+- [ ] Hooks de pre-commit con Black y Ruff.
+- [ ] Activar Dependabot para vigilar las dependencias.
+- [ ] Unificar la ruta del corpus entre el README y `main.py`.
+
+### v0.3.0 — Limpieza del código
+
+- [ ] Migrar nombres de variables, funciones y docstrings a inglés técnico.
+
+### v1.0.0 — Demo
+
+- [ ] CLI interactiva para explorar los embeddings: vecinos más cercanos, similitud, analogías y palabra intrusa.
+- [ ] Ajustar hiperparámetros y lanzar el entrenamiento desde la CLI, sin editar `main.py`.
+- [ ] README bilingüe (`README.md` en inglés y `README.es.md` en español), con capturas de la CLI, animaciones en los diagramas e instalación para los tres sistemas operativos.
+
+### Más adelante
+
+- [ ] Buscar una utilidad real para el motor (búsqueda o clasificación de apuntes, expansión de búsquedas con sinónimos...).
+- [ ] Valorar dockerizar el proyecto.
+
 ## Notas
  
 - Variante: **CBOW** (varias palabras de contexto predicen la palabra centro).
