@@ -1,3 +1,11 @@
+---
+name: General
+about: Proponer una tarea o mejora, o informar de un problema
+title: ""
+labels: []
+assignees: AlfonsoJimena
+---
+
 ## Descripción
 
 <!-- ¿Qué problema resuelve esta issue o qué funcionalidad añade? -->

@@ -6,6 +6,17 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-19
+### Added
+- Workflow `vigilar-codeowners.yml` que avisa cuando alguien que no es el propietario modifica `CODEOWNERS`.
+- `.github/ISSUE_TEMPLATE/config.yml`: desactiva las issues en blanco y añade un enlace para informar de vulnerabilidades en privado.
+
+### Changed
+- `CODEOWNERS` declara explícitamente al propietario de `.github/` y de los workflows.
+
+### Fixed
+- La plantilla de issues (`general.md`) no aparecía al crear una issue porque le faltaba la cabecera YAML.
+
 ## [0.1.0] - 2026-11-19
 ### Added
 - Primera versión funcional del motor Word2Vec desde cero.
@@ -25,5 +36,6 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
     - `ISSUE_TEMPLATE/general.md`
     - `PULL_REQUEST_TEMPLATE.md`
 
-[Unreleased]: https://github.com/AlfonsoJimena/Word2vecWithNumpy/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/AlfonsoJimena/Word2vecWithNumpy/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/AlfonsoJimena/Word2vecWithNumpy/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/AlfonsoJimena/Word2vecWithNumpy/releases/tag/v0.1.0
