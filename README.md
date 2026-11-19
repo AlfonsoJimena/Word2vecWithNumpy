@@ -1,6 +1,6 @@
 # Word2VecWithNumpy - Un pequeñísimo modelo en local
 
-[![Versión](https://img.shields.io/badge/versión-0.1.0-blue)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versión-0.1.1-blue)](CHANGELOG.md)
 [![NumPy](https://img.shields.io/badge/NumPy-puro-013243)](https://numpy.org/)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green)](LICENSE)
  

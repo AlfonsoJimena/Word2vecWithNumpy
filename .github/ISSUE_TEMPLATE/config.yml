@@ -1,0 +1,10 @@
+# Configuración del selector de plantillas al crear una issue.
+
+# Obliga a usar una plantilla (no se pueden abrir issues en blanco).
+blank_issues_enabled: false
+
+# Enlaces que aparecen debajo de las plantillas.
+contact_links:
+  - name: Informar de una vulnerabilidad
+    url: https://github.com/AlfonsoJimena/Word2vecWithNumpy/security/advisories/new
+    about: Los problemas de seguridad se notifican en privado, no en una issue pública.
