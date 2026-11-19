@@ -1,0 +1,109 @@
+# Avisa cuando alguien modifica el archivo CODEOWNERS (o este workflow).
+#
+# - En un PR: si el autor del PR (o quien empuja commits a él) no es el
+#   propietario, comenta en el PR mencionándolo y el check falla.
+# - En un push directo a main: si quien empuja no es el propietario,
+#   abre una issue asignada al propietario.
+#
+# Se usa pull_request_target para que se ejecute la versión de este workflow
+# que hay en main y no la del PR: así nadie puede desactivarlo editándolo en
+# su propio PR. Es seguro porque NUNCA se hace checkout ni se ejecuta código
+# del PR; solo se consulta la lista de archivos cambiados a la API de GitHub.
+#
+# No lleva filtro "paths" en los PR a propósito: así se ejecuta en todos y
+# se puede marcar como "required status check" sin dejar PRs bloqueados.
+
+name: Vigilar CODEOWNERS
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+    paths:
+      - ".github/CODEOWNERS"
+      - "CODEOWNERS"
+      - "docs/CODEOWNERS"
+      - ".github/workflows/vigilar-codeowners.yml"
+
+permissions: {}
+
+env:
+  PROPIETARIO: AlfonsoJimena
+  # Rutas vigiladas (expresión regular sobre la ruta completa del archivo)
+  PATRON: '^((\.github|docs)/)?CODEOWNERS$|^\.github/workflows/vigilar-codeowners\.yml$'
+
+jobs:
+  revisar-pr:
+    name: Revisar cambios en CODEOWNERS
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comprobar archivos del PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          AUTOR: ${{ github.event.pull_request.user.login }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+
+          # Incluye previous_filename para detectar también renombrados.
+          # Si la API falla, el paso falla (no se da por bueno el PR).
+          archivos=$(gh api "repos/$REPO/pulls/$PR/files" --paginate \
+            -q '.[] | .filename, (.previous_filename // empty)')
+          tocados=$(printf '%s\n' "$archivos" | grep -E "$PATRON" \
+            | sort -u | tr '\n' ' ' || true)
+
+          if [ -z "$tocados" ]; then
+            echo "El PR no modifica CODEOWNERS."
+            exit 0
+          fi
+
+          echo "::warning::Este PR modifica archivos vigilados: $tocados"
+
+          if [ "$AUTOR" = "$PROPIETARIO" ] && [ "$ACTOR" = "$PROPIETARIO" ]; then
+            echo "Cambio hecho por el propietario, no se bloquea."
+            exit 0
+          fi
+
+          # Comenta solo una vez por PR (se reconoce por esta marca oculta)
+          marca='<!-- vigilar-codeowners -->'
+          if ! gh api "repos/$REPO/issues/$PR/comments" --paginate -q '.[].body' \
+              | grep -qF "$marca"; then
+            gh pr comment "$PR" --repo "$REPO" --body "$marca
+          ⚠️ **Este PR modifica archivos protegidos:** \`$tocados\`
+
+          @$PROPIETARIO revisa estos cambios con cuidado antes de aprobar: CODEOWNERS decide quién tiene que revisar cada parte del repositorio."
+          fi
+
+          echo "::error::Archivos protegidos modificados por alguien que no es el propietario ($AUTOR / $ACTOR)."
+          exit 1
+
+  avisar-push:
+    name: Avisar de push a CODEOWNERS en main
+    if: github.event_name == 'push' && github.actor != 'AlfonsoJimena'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir issue de aviso
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          gh issue create --repo "$REPO" \
+            --assignee "$PROPIETARIO" \
+            --title "⚠️ CODEOWNERS modificado en main por $ACTOR" \
+            --body "Se ha hecho push a \`main\` modificando archivos vigilados.
+
+          - Usuario: \`$ACTOR\`
+          - Commit: $SHA
+
+          Revisa el cambio y reviértelo si no estaba autorizado."
