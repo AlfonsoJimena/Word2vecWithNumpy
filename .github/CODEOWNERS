@@ -1,4 +1,14 @@
 # Cada línea asigna uno o varios propietarios a un patrón de archivos.
-# El patrón "*" cubre todo el repositorio.
+# Si un archivo coincide con varios patrones, manda la ÚLTIMA línea que coincida.
+# Con "Require review from Code Owners" activado en la protección de main,
+# cualquier PR que toque estos archivos necesita la aprobación del propietario.
 
+# Propietario por defecto de todo el repositorio
 * @AlfonsoJimena
+
+# Configuración del repositorio: plantillas, workflows y este mismo archivo.
+# Se declaran aparte para que sigan siendo míos aunque en el futuro
+# se añadan más propietarios a la regla general.
+/.github/ @AlfonsoJimena
+/.github/CODEOWNERS @AlfonsoJimena
+/.github/workflows/ @AlfonsoJimena
